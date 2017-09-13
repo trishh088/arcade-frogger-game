@@ -167,6 +167,16 @@ Player.prototype.handleInput = function(key) {
     }
     go = !go;
 
+    if(this.x < star.x + star.width &&
+   this.x + this.width > star.x &&
+   this.y < star.y + star.height &&
+   this.height + this.y > star.y){
+
+      star.collision();
+
+
+      }
+
 };
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -185,8 +195,10 @@ var Star = function(){
     this.width = 75;
     this.height = 50;
     this.sprite = 'images/char-pink-girl.png';
-    this.x = Math.random() * (250 - 10) + 100;
-    this.y = Math.random() * (250 - 10) + 50;
+    // this.x = Math.random() * (250 - 10) + 100;
+    // this.y = Math.random() * (250 - 10) + 50;
+    this.x = 80;
+    this.y = 80;
 };
 
 //Draw the star sprite on the screen
@@ -195,31 +207,66 @@ Star.prototype.render = function() {
 };
 
 //Update stars when collected by player
-Star.prototype.update = function() {
-    this.starCollision();
+// Star.prototype.update = function() {
+//     this.collision();
+// };
+Star.prototype.update = function(){
+    this.y = 60;
+    this.x = 200;
+
 };
+//for reset
+Star.prototype.reset = function(){
+
+          this.y = Math.floor(Math.random()*  200); // resets gem to different points on canvas
+          this.x = Math.floor(Math.random() * 300);
+          console.log(this.x,this.y);
+
+        }
+
 
 //Check for Collision between star and player.
-Star.prototype.starCollision = function(target) {
+Star.prototype.collision = function(target) {
 
- for(var i=0; i<star.length; i++){
-   if(player.x<stars[i].x + this.width && player.x + player.width>stars[i].x && player.y <stars[i].y + this.height && player.height + player.y > stars[i].y){
-     player.score = +1;
-     document.getElementById("score").innerHTML =  player.score;  // updates the score
-     //remove the caught gem
-         star.pop();
-         
+ // for(var i=0; i<star.length; i++){
+ //   if(star[i].x<player.x + this.width && star[i].x + star[i].width>player.x && star[i].y <player.y + this.height && star[i].height + star[i].y > player.y) {
+ //     player.score = +1;
+ //     document.getElementById("score").innerHTML =  player.score;  // updates the score
+ //     //remove the caught gem
+ //     star[i].splice(i,1);
+ //         isCollision = true;
+ //         star.reset();
 
-   }
- }
+         // Gem collision on different points on the canvas.
 
+                 Star.prototype.collision = function() {
+
+                     if(player.x < this.x + this.width &&
+                     player.x + player.width > this.x &&
+                     player.y < this.y + this.height &&
+                     player.height + player.y > this.y);
+
+                       console.log("got a gem!");
+                       console.count("Gem collision");
+
+                       player.score += 50;
+                       document.getElementById("score").innerHTML =  player.score;  // updates the score
+                       star.reset();
+
+                 };
+
+ //   }
+ // }
 };
+
+
+
 //Instantiate Star objects and stored in an array.
-var star = [];
-for(var i = 0; i < 4; i++){
+// var star = [new Star(0,70), new Star(100,120)];
+// for(var i = 0; i < 4; i++){
     var star = new Star();
     //  star.push(new Star);
-}
+// }
 
 
 
