@@ -109,11 +109,12 @@ Player.prototype.update = function() {
               this.score += 2;  //increments the score
               document.getElementById("score").innerHTML =  this.score;  // updates the score
               this.reset();
-       } else if(this.score === 4){
-        //  this.reset;
-        //  document.getElementById("won").innerHTML =  "WON";  // updates the score
-
-}
+        }
+// else if(this.score === 4){
+//         //  this.reset;
+//         //  document.getElementById("won").innerHTML =  "WON";  // updates the score
+//
+// }
 
 
 
@@ -167,6 +168,7 @@ Player.prototype.handleInput = function(key) {
     }
     go = !go;
 
+//for the star object
     if(this.x < star.x + star.width &&
    this.x + this.width > star.x &&
    this.y < star.y + star.height &&
@@ -177,12 +179,18 @@ Player.prototype.handleInput = function(key) {
 
       }
 
+      //condition for winning
+      if(this.score >= 500){
+                       alert("You win!");
+                       this.score = 0;
+                     }
 };
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 
-var allEnemies = [new Enemy(0, 70),new Enemy (0,90),new Enemy(0,100),new Enemy(200,300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50,300),new Enemy(10,300), new Enemy(0,250),new Enemy(100,290)];
-
+var allEnemies = [new Enemy(0, 70)
+];
+// ,new Enemy (0,90),new Enemy(0,100),new Enemy(200,300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50,300),new Enemy(10,300), new Enemy(0,250),new Enemy(100,290)
     allEnemies.push(new Enemy());
 
 // Place the player object in a variable called player
@@ -195,10 +203,10 @@ var Star = function(){
     this.width = 75;
     this.height = 50;
     this.sprite = 'images/char-pink-girl.png';
-    // this.x = Math.random() * (250 - 10) + 100;
-    // this.y = Math.random() * (250 - 10) + 50;
-    this.x = 80;
-    this.y = 80;
+    this.x = Math.random() * (250 - 10) + 100;
+    this.y = Math.random() * (250 - 10) + 50;
+    // this.x = 80;
+    // this.y = 80;
 };
 
 //Draw the star sprite on the screen
@@ -211,16 +219,27 @@ Star.prototype.render = function() {
 //     this.collision();
 // };
 Star.prototype.update = function(){
-    this.y = 60;
-    this.x = 200;
+    //  this.y = 60;
+    //  this.x = 200;
+    var that = this;
+    a = Math.floor((Math.random()*7)+ 0)*101;
+    b = (Math.floor((Math.random()*3)+ 1)*83)-20;
+//checking the boundary of the canvas
+    if (a>800 && a>500 && b>800 && b>500){
+      that.x = a;
+      that.y = b;
+    }
 
 };
 //for reset
 Star.prototype.reset = function(){
-
-          this.y = Math.floor(Math.random()*  200); // resets gem to different points on canvas
-          this.x = Math.floor(Math.random() * 300);
+          //
+          this.y = Math.floor(Math.random()*  150); // resets gem to different points on canvas
+          this.x = Math.floor(Math.random() * 500);
           console.log(this.x,this.y);
+//           var that = this; that.x = 100;
+// that.y = 200;
+
 
         }
 
@@ -263,10 +282,10 @@ Star.prototype.collision = function(target) {
 
 //Instantiate Star objects and stored in an array.
 // var star = [new Star(0,70), new Star(100,120)];
-// for(var i = 0; i < 4; i++){
+for(var i = 0; i < 4; i++){
     var star = new Star();
-    //  star.push(new Star);
-// }
+    // star.push(new Star);
+ }
 
 
 
