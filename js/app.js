@@ -1,3 +1,20 @@
+var selectedChar; //Used as pointer for the selected sprite URL in array
+var chars = [ //Array of URLs for player and NPC sprites
+    'images/char-boy.png',
+    'images/char-cat-girl.png',
+    'images/char-horn-girl.png',
+    'images/char-pink-girl.png',
+    'images/char-princess-girl.png'
+];
+var Game = function() {
+  //Preload audio sample(s)
+  this.gainLifeEfx = new Audio('audio/gainLife.wav');
+  this.getGemEfx = new Audio('audio/getGem.wav');
+  this.loseLifeEfx = new Audio('audio/loseLife.wav');
+  this.winGameEfx = new Audio('audio/wingame.wav');
+};
+
+var game = new Game();
 var go = false; // Toggle between start screen and game
 // Enemies our player must avoid
 var Enemy = function(a, b, speed) {
@@ -88,7 +105,7 @@ Player.prototype.update = function() {
             // collision detected!
             // this.x = 201;
             // this.y = 401;
-
+game.loseLifeEfx.play();
             this.reset();
             this.score -= 2;
             document.getElementById("score").innerHTML =  this.score;  // update score
@@ -168,7 +185,7 @@ Player.prototype.handleInput = function(key) {
     }
     go = !go;
 
-//for the star object
+//for the star object so that it runs every time the player moves
     if(this.x < star.x + star.width &&
    this.x + this.width > star.x &&
    this.y < star.y + star.height &&
@@ -181,8 +198,12 @@ Player.prototype.handleInput = function(key) {
 
       //condition for winning
       if(this.score >= 500){
+
+    game.winGameEfx.play();
+
                        alert("You win!");
                        this.score = 0;
+
                      }
 };
 // Now instantiate your objects.
@@ -203,8 +224,8 @@ var Star = function(){
     this.width = 75;
     this.height = 50;
     this.sprite = 'images/char-pink-girl.png';
-    this.x = Math.random() * (250 - 10) + 100;
-    this.y = Math.random() * (250 - 10) + 50;
+    this.x = Math.random() * (250 - 10) + 1;
+    this.y = Math.random() * (250 - 10) + 5;
     // this.x = 80;
     // this.y = 80;
 };
@@ -228,6 +249,7 @@ Star.prototype.update = function(){
     if (a>800 && a>500 && b>800 && b>500){
       that.x = a;
       that.y = b;
+
     }
 
 };
@@ -267,7 +289,7 @@ Star.prototype.collision = function(target) {
 
                        console.log("got a gem!");
                        console.count("Gem collision");
-
+game.getGemEfx.play();
                        player.score += 50;
                        document.getElementById("score").innerHTML =  player.score;  // updates the score
                        star.reset();
@@ -283,7 +305,7 @@ Star.prototype.collision = function(target) {
 //Instantiate Star objects and stored in an array.
 // var star = [new Star(0,70), new Star(100,120)];
 for(var i = 0; i < 4; i++){
-    var star = new Star();
+    var star = new Star(i);
     // star.push(new Star);
  }
 
@@ -307,3 +329,56 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// ---------- Selector Class ---------- \\
+
+/* Selector used for character selection
+ *realx Vertical coordinate at which to draw selector
+ * y Vertical coordinate
+ * alpha Transparency value for the sprite
+ * throbdir Direction of visual throb:  transparent & opaque
+ */
+var Selector = function() {
+    this.col = 0;
+    this.x = this.col * 101 + 152;
+    this.y = 498;
+    this.sprite = 'images/Selector.png';
+    this.alpha = 1;
+    this.throbdir = 'transparent';
+};
+// Receives input from user to move selector
+Selector.prototype.handleInput = function(key) {
+    if (key == 'left') {
+        this.col > 0 ? (this.col--, this.x = this.col * 101 + 152) : this.col;
+    }
+    if (key == 'right') {
+      this.col < 4 ? (this.col++, this.x = this.col * 101 + 152) : this.col;
+    }
+    if (key == 'enter') {
+      selectedChar = this.col;
+      play = true;
+      game.resetGame();
+    }
+};
+// Selector render function
+Selector.prototype.render = function() {
+    ctx.save();
+    this.throb();
+    ctx.globalAlpha = this.alpha;
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.restore();
+};
+
+// Helper for Selector.render that uses alpha transparency to "throb" the selector
+Selector.prototype.throb = function() {
+    if (this.alpha > 0.5 && this.throbdir === 'transparent') {//'down') {
+        this.alpha -= 0.0075;
+    }
+    else {
+        this.throbdir = 'opaque';//'up';
+        this.alpha += 0.0075;
+        if (this.alpha > 1 && this.throbdir === 'opaque') { //'up') {
+            this.throbdir = 'transparent';//'down';
+        }
+    }
+};
