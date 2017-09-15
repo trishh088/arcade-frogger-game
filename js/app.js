@@ -13,6 +13,16 @@ var Game = function() {
   this.loseLifeEfx = new Audio('audio/loseLife.wav');
   this.winGameEfx = new Audio('audio/wingame.wav');
 };
+document.getElementById('mute').addEventListener('click', function (evt) {
+  if ( game.getGemEfx.muted ) {
+    game.getGemEfx.muted = false
+    evt.target.innerHTML = 'mute'
+  }
+  else {
+    game.getGemEfx.muted = true
+    evt.target.innerHTML = 'unmute'
+  }
+})
 
 var game = new Game();
 var go = false; // Toggle between start screen and game
@@ -179,14 +189,15 @@ Player.prototype.handleInput = function(key) {
             if (key === 'down' && this.y <= 400) {
                 this.y += 82.5;
             } else {
-                this.y = 450;
-            }console.log(this.y);
+                this.y = 420;
+            }
             break;
 
     }
-    go = !go;
+    // go = !go;
 
 //for the star object so that it runs every time the player moves
+
     if(this.x < star.x + star.width &&
    this.x + this.width > star.x &&
    this.y < star.y + star.height &&
@@ -231,15 +242,7 @@ var Star = function(){
     // this.y = 80;
 };
 
-//Draw the star sprite on the screen
-Star.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 
-//Update stars when collected by player
-// Star.prototype.update = function() {
-//     this.collision();
-// };
 Star.prototype.update = function(){
     //  this.y = 60;
     //  this.x = 200;
@@ -247,24 +250,27 @@ Star.prototype.update = function(){
     a = Math.floor((Math.random()*7)+ 0)*101;
     b = (Math.floor((Math.random()*3)+ 1)*83)-20;
 //checking the boundary of the canvas
-    if (a>800 && a>500 && b>800 && b>500){
+    if (a>606 && a>909 && b>606 && b>909){
       that.x = a;
       that.y = b;
 
     }
 
 };
+
 //for reset
 Star.prototype.reset = function(){
           //
-          this.y = Math.floor(Math.random()*  150); // resets gem to different points on canvas
-          this.x = Math.floor(Math.random() * 500);
+          this.y = Math.floor(Math.random()*  320); // resets gem to different points on canvas
+          this.x = Math.floor(Math.random() * 750);
           console.log(this.x,this.y);
 //           var that = this; that.x = 100;
 // that.y = 200;
 
 
         }
+
+
 
 
 //Check for Collision between star and player.
@@ -301,6 +307,15 @@ game.getGemEfx.play();
  // }
 };
 
+//Draw the star sprite on the screen
+Star.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+//Update stars when collected by player
+// Star.prototype.update = function() {
+//     this.collision();
+// };
 
 
 //Instantiate Star objects and stored in an array.
@@ -331,55 +346,14 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-// ---------- Selector Class ---------- \\
 
-/* Selector used for character selection
- *realx Vertical coordinate at which to draw selector
- * y Vertical coordinate
- * alpha Transparency value for the sprite
- * throbdir Direction of visual throb:  transparent & opaque
- */
-var Selector = function() {
-    this.col = 0;
-    this.x = this.col * 101 + 152;
-    this.y = 498;
-    this.sprite = 'images/Selector.png';
-    this.alpha = 1;
-    this.throbdir = 'transparent';
-};
-// Receives input from user to move selector
-Selector.prototype.handleInput = function(key) {
-    if (key == 'left') {
-        this.col > 0 ? (this.col--, this.x = this.col * 101 + 152) : this.col;
-    }
-    if (key == 'right') {
-      this.col < 4 ? (this.col++, this.x = this.col * 101 + 152) : this.col;
-    }
-    if (key == 'enter') {
-      selectedChar = this.col;
-      play = true;
-      game.resetGame();
-    }
-};
-// Selector render function
-Selector.prototype.render = function() {
-    ctx.save();
-    this.throb();
-    ctx.globalAlpha = this.alpha;
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    ctx.restore();
-};
 
-// Helper for Selector.render that uses alpha transparency to "throb" the selector
-Selector.prototype.throb = function() {
-    if (this.alpha > 0.5 && this.throbdir === 'transparent') {//'down') {
-        this.alpha -= 0.0075;
-    }
-    else {
-        this.throbdir = 'opaque';//'up';
-        this.alpha += 0.0075;
-        if (this.alpha > 1 && this.throbdir === 'opaque') { //'up') {
-            this.throbdir = 'transparent';//'down';
-        }
-    }
-};
+var vid = document.getElementById("sound");
+
+function enableMute() {
+    vid.muted = true;
+}
+
+function disableMute() {
+    vid.muted = false;
+}
