@@ -76,10 +76,10 @@ Player.prototype.reset = function() {
 };
 
 //Player water position
-Player.prototype.water = function (x,y) {
-  this.x = 30;
-  this.y = 0;
-};
+// Player.prototype.water = function (x,y) {
+//   this.x = 30;
+//   this.y = 0;
+// };
 
 
 // Player.prototype.drawText = function() {
@@ -161,7 +161,7 @@ Player.prototype.handleInput = function(key) {
         case 'up':
             if (key === 'up' && this.y >= 30) {
                 this.y -= 82.5;
-                hasReachedWater = true;
+                // hasReachedWater = true;
             } else {
                 this.y = 0;
             }
@@ -176,12 +176,13 @@ Player.prototype.handleInput = function(key) {
             break;
 
         case 'down':
-            if (key === 'down' && this.y <= 70) {
+            if (key === 'down' && this.y <= 400) {
                 this.y += 82.5;
             } else {
                 this.y = 450;
-            }
+            }console.log(this.y);
             break;
+
     }
     go = !go;
 
