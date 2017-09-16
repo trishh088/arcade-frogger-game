@@ -6,9 +6,64 @@ var chars = [ //Array of URLs for player and NPC sprites
     'images/char-pink-girl.png',
     'images/char-princess-girl.png'
 ];
+var play = false; //Whether the game has begun; used to trigger character selector screen
+var Selector = function() {
+  self = this;
+    self.col = 0;
+    self.x = this.col * 111 + 200;
+    self.y = 250;
+    self.sprite = 'images/Selector.png';
+    self.alpha = 1;
+    self.throbdir = 'transparent';
+};
+
+// Receives input from user to move selector
+Selector.prototype.handleInput = function(key) {
+    if (key == 'left') {
+        self.col > 0 ? (self.col--, self.x = self.col * 101 + 202) : self.col;
+    }
+    if (key == 'right') {
+      self.col < 4 ? (self.col++, self.x = self.col * 101 + 202) : self.col;
+    }
+    if (key == 'enter') {
+      selectedChar = self.col;
+      play = true;
+
+    }
+};
+
+// Selector render function
+Selector.prototype.render = function() {
+    ctx.save();
+    self.throb();
+    ctx.globalAlpha = self.alpha;
+    ctx.drawImage(Resources.get(self.sprite), self.x, self.y);
+    ctx.restore();
+};
+
+// Helper for Selector.render that uses alpha transparency to "throb" the selector
+Selector.prototype.throb = function() {
+    if (self.alpha > 0.5 && self.throbdir === 'transparent') {//'down') {
+        self.alpha -= 0.0075;
+    }
+    else {
+        self.throbdir = 'transparent';//'up';
+        self.alpha += 0.0075;
+        if (self.alpha > 1 && self.throbdir === 'opaque') { //'up') {
+            self.throbdir = 'transparent';//'down';
+        }
+    }
+};
+
+
+// Instantiates our selector; called in Engine.js before init()
+ function initLoad() {
+     selector = new Selector();
+ }
+
+
 var Game = function() {
   //Preload audio sample(s)
-  this.gainLifeEfx = new Audio('audio/gainLife.wav');
   this.getGemEfx = new Audio('audio/getGem.wav');
   this.loseLifeEfx = new Audio('audio/loseLife.wav');
   this.winGameEfx = new Audio('audio/wingame.wav');
@@ -79,7 +134,8 @@ var Player = function(play) {
 
     // document.getElementById('score').innerHTML = this.score + this.newScore; //to link the updated score to html file
      document.getElementById('lives').innerHTML = this.lives;
-    this.sprite = 'images/char-boy.png';
+    // this.sprite = 'images/char-boy.png';
+    this.sprite = chars[selectedChar];
 };
 
 
@@ -333,9 +389,6 @@ for(var i = 0; i < 4; i++){
  }
 
 
-
-
-
 //add star.render() in function renderEntities() {} and star.update() in function updateEntities(dt) in engine.js
 
 
@@ -348,6 +401,12 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
+    if (play === false) {
+        selector.handleInput(allowedKeys[e.keyCode]);
+    }
+    else {
+        player.handleInput(allowedKeys[e.keyCode]);
+    }
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    // player.handleInput(allowedKeys[e.keyCode]);
 });

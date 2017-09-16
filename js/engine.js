@@ -30,16 +30,6 @@ var Engine = (function(global) {
     doc.body.appendChild(canvas);
 
 
-function renderStartScreen() {
-  if (go) {
-  render(); // Render game
-} else {
-  renderStartScreen(); // Render start screen
-}
-}
-
-
-
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
@@ -80,6 +70,7 @@ function renderStartScreen() {
      */
     function init() {
         reset();
+        initLoad();
         lastTime = Date.now();
         main();
     }
@@ -106,12 +97,14 @@ function renderStartScreen() {
      * render methods.
      */
     function updateEntities(dt) {
+      if (play === true) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
         player.update();
         star.update();
-        
+      }
+
     }
 
     /* This function initially draws the "game level", it will then call
@@ -126,6 +119,9 @@ function renderStartScreen() {
          */
           // player.drawText();
           // player.increaseScore();
+          if (play === true) {
+
+
         var rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
@@ -158,6 +154,10 @@ function renderStartScreen() {
 
         renderEntities();
     }
+    else {
+      startScreen();
+    }
+  }
 
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
@@ -174,6 +174,65 @@ function renderStartScreen() {
         player.render();
         star.render();
 
+    }
+
+
+
+    function startScreen() {
+
+
+      //*********Game Description.----****see comment above***
+      var gameDescription = "Save the Princess and score 500 points to win!";
+      var gameDescription2 ="Avoid the Bugs! You only have 3 lives";
+      var gameDescription3 = "...Good Luck!";
+      ctx.font = 'bold 20pt Verdana';
+      ctx.textAlign = 'center';
+
+      ctx.fillStyle = '#556B2F';
+      ctx.fillText(gameDescription, canvas.width/2, 78);
+      ctx.fillText(gameDescription2, canvas.width/2, 110);
+      ctx.fillText(gameDescription3, canvas.width/2, 145);
+
+      ctx.strokeStyle = '#cccccc';
+      ctx.lineWidth = 1;
+      ctx.strokeText(gameDescription, canvas.width/2, 78);
+      ctx.strokeText(gameDescription2, canvas.width/2, 110);
+      ctx.strokeText(gameDescription3, canvas.width/2, 145);
+
+      //*********Controls....**********
+      var control = "Choose your Avatar";
+      ctx.font = 'bold 20pt Verdana';
+      ctx.textAlign = 'center';
+
+      ctx.fillStyle = '#556B2F';
+      ctx.fillText(control, canvas.width/2, 204);
+
+      ctx.strokeStyle = '#cccccc';
+      ctx.lineWidth = 1;
+      ctx.strokeText(control, canvas.width/2, 204);
+
+
+      //********character section********
+      ctx.font = "bold 20pt Verdana";
+      ctx.textAlign = 'center';
+
+      ctx.fillStyle = "#556B2F";
+      ctx.fillText("Choose your Player. Press Enter to Start Game", (canvas.width*0.5), 540);
+
+      ctx.strokeStyle = '#cccccc';
+      ctx.lineWidth = 1;
+      ctx.strokeText("Choose your Player. Press Enter to Start Game", (canvas.width*0.5), 540);
+
+        function loadRender() {
+                for (col = 0; col <5; col++) {
+                ctx.drawImage(Resources.get("images/stone-block.png"), col * 101 + 200, 280); //650
+              }
+            selector.render();
+            for (var i = 0; i < chars.length; i++) {
+              ctx.drawImage(Resources.get(chars[i]), i * 101 + 200, 250); //34 diff.
+            }
+        }
+        loadRender(); //invoke the loadRender function. call it. make it work.
     }
 
     /* This function does nothing but it could have been a good place to
@@ -194,7 +253,12 @@ function renderStartScreen() {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/char-pink-girl.png'
+        'images/char-pink-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-cat-girl.png',
+        'images/Selector.png',
+        'images/char-princess-girl.png'
     ]);
     Resources.onReady(init);
 
