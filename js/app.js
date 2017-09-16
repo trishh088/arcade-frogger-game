@@ -248,8 +248,6 @@ Player.prototype.handleInput = function(key) {
         this.height + this.y > star.y) {
 
         star.collision();
-
-
     }
 
     //condition for winning
@@ -282,11 +280,11 @@ var player = new Player();
 
 //Star - objects that player should collect to win.
 var Star = function() {
-    this.x = Math.random() * (250 - 10) + 10;
-    this.y = Math.random() * (250 - 10) + 50;
-    this.width = 75;
-    this.height = 50;
-    this.sprite = 'images/char-pink-girl.png';
+    this.x = 403;
+    this.y = 203;
+    this.width = 50;
+    this.height = 75;
+    this.sprite = 'images/char-boy.png';
 };
 
 

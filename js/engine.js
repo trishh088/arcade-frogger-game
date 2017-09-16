@@ -28,6 +28,12 @@ var Engine = (function(global) {
     canvas.width = 909;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+    window.addEventListener("resize", OnResizeCalled, false);
+
+    function OnResizeCalled() {
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+    }
 
 
     /* This function serves as the kickoff point for the game loop itself
@@ -184,46 +190,39 @@ var Engine = (function(global) {
 
 
       //*********Game Description.----****see comment above***
-      var gameDescription = "Save the Princess and score 500 points to win!";
-      var gameDescription2 ="Avoid the Bugs! You only have 3 lives";
-      var gameDescription3 = "...Good Luck!";
-      ctx.font = 'bold 20pt Verdana';
+      var gameDescription = "Save the Prince and score 500 points to win!";
+      var gameDescription2 ="50 points = Prince and 2 points = water!";
+      var gameDescription3 = "Avoid the Bugs! You only have 3 lives...Good Luck!";
+      ctx.font = '20pt Verdana';
       ctx.textAlign = 'center';
 
-      ctx.fillStyle = '#556B2F';
-      ctx.fillText(gameDescription, canvas.width/2, 78);
+      ctx.fillStyle = '#E3765E';
+      ctx.fillText(gameDescription, canvas.width/2, 75);
       ctx.fillText(gameDescription2, canvas.width/2, 110);
       ctx.fillText(gameDescription3, canvas.width/2, 145);
 
-      ctx.strokeStyle = '#cccccc';
-      ctx.lineWidth = 1;
-      ctx.strokeText(gameDescription, canvas.width/2, 78);
-      ctx.strokeText(gameDescription2, canvas.width/2, 110);
-      ctx.strokeText(gameDescription3, canvas.width/2, 145);
+
+
 
       //*********Controls....**********
       var control = "Choose your Avatar";
-      ctx.font = 'bold 20pt Verdana';
+      ctx.font = ' 20pt Verdana';
       ctx.textAlign = 'center';
 
-      ctx.fillStyle = '#556B2F';
+      ctx.fillStyle = '#654634';
       ctx.fillText(control, canvas.width/2, 204);
 
-      ctx.strokeStyle = '#cccccc';
       ctx.lineWidth = 1;
-      ctx.strokeText(control, canvas.width/2, 204);
 
 
       //********character section********
-      ctx.font = "bold 20pt Verdana";
+      ctx.font = " 20pt Verdana";
       ctx.textAlign = 'center';
 
-      ctx.fillStyle = "#556B2F";
+
+      ctx.fillStyle = "#E3765E";
       ctx.fillText("Choose your Player. Press Enter to Start Game", (canvas.width*0.5), 540);
 
-      ctx.strokeStyle = '#cccccc';
-      ctx.lineWidth = 1;
-      ctx.strokeText("Choose your Player. Press Enter to Start Game", (canvas.width*0.5), 540);
 
         function loadRender() {
                 for (col = 0; col <5; col++) {

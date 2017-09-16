@@ -1,45 +1,47 @@
 body {
     text-align: center;
-    max-width: 100%;
-    max-height: 100%;
-
-
 }
 
 #mute {
   position:absolute;
   left:670px;
   bottom:5px;
-  padding: 0.5px;
+  padding: 10px;
+  text-align: center;
 
 }
 .basic {
-  position:fixed;
+  /*position:fixed;*/
+  text-align: center;
   height : 20px;
   color: white;
   font-size: 180%;
   font-weight: bold;
   font-family: 'Pacifico', cursive;
+  position: absolute;
 }
 
 .scores {
 left: 250px;  /* This will move it 250px to the right */
 bottom:5px;
 padding: 35px;
+position: absolute;
 }
 
 .live {
 left: 970px;  /* This will move it 250px to the right */
 bottom:5px;
 padding: 35px;
+position: absolute;
 }
 
 .heading {
+  text-align: center;
   top:-10px;
   font-size: 200%;
-  left: 580px;
+  left: 500px;
   padding: 15px;
-  color: #88d8b0;
+  color: #654634;
   -webkit-text-stroke-width: 1px;
    -webkit-text-stroke-color: black;
 }
