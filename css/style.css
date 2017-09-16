@@ -6,6 +6,13 @@ body {
 
 }
 
+#mute {
+  position:absolute;
+  left:670px;
+  bottom:5px;
+  padding: 0.5px;
+
+}
 .basic {
   position:fixed;
   height : 20px;

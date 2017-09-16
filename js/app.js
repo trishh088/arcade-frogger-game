@@ -13,19 +13,23 @@ var Game = function() {
   this.loseLifeEfx = new Audio('audio/loseLife.wav');
   this.winGameEfx = new Audio('audio/wingame.wav');
 };
-document.getElementById('mute').addEventListener('click', function (evt) {
-  if ( game.getGemEfx.muted ) {
+document.getElementById('mute').addEventListener('click', function (icon) {
+  if ( game.getGemEfx.muted && game.loseLifeEfx && game.winGameEfx ) {
     game.getGemEfx.muted = false
-    evt.target.innerHTML = 'mute'
+    game.loseLifeEfx.muted = false
+    game.winGameEfx.muted = false
+    icon.target.innerHTML = '🔊'
   }
   else {
     game.getGemEfx.muted = true
-    evt.target.innerHTML = 'unmute'
+    game.loseLifeEfx.muted = true
+    game.winGameEfx.muted = true
+    icon.target.innerHTML = '🔇'
   }
 })
 
 var game = new Game();
-var go = false; // Toggle between start screen and game
+
 // Enemies our player must avoid
 var Enemy = function(a, b, speed) {
     // Variables applied to each of our instances go here,
@@ -233,14 +237,15 @@ var player = new Player();
 
 //Star - objects that player should collect to win.
 var Star = function(){
+  this.x = Math.random() * (250 - 10) + 1;
+  this.y = Math.random() * (250 - 10) + 5;
     this.width = 75;
     this.height = 50;
     this.sprite = 'images/char-pink-girl.png';
-    this.x = Math.random() * (250 - 10) + 1;
-    this.y = Math.random() * (250 - 10) + 5;
     // this.x = 80;
     // this.y = 80;
 };
+
 
 
 Star.prototype.update = function(){
@@ -307,15 +312,17 @@ game.getGemEfx.play();
  // }
 };
 
-//Draw the star sprite on the screen
-Star.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+
 
 //Update stars when collected by player
 // Star.prototype.update = function() {
 //     this.collision();
 // };
+
+//Draw the star sprite on the screen
+Star.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 
 //Instantiate Star objects and stored in an array.
@@ -324,7 +331,6 @@ for(var i = 0; i < 4; i++){
     var star = new Star(i);
     // star.push(new Star);
  }
-
 
 
 
@@ -345,15 +351,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
-
-
-var vid = document.getElementById("sound");
-
-function enableMute() {
-    vid.muted = true;
-}
-
-function disableMute() {
-    vid.muted = false;
-}
