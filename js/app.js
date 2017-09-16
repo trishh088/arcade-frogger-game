@@ -281,6 +281,10 @@ Player.prototype.handleInput = function(key) {
 
                        alert("You win!");
                        this.score = 0;
+                       document.getElementById('score').innerHTML = this.score;
+                       this.lives = 3;
+                       document.getElementById('lives').innerHTML = this.lives;
+                       this.reset();
 
                      }
 };
