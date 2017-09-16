@@ -11,8 +11,8 @@ var Selector = function() {
   self = this;
     self.col = 0;
     self.x = this.col * 111 + 200;
-    self.y = 250;
-    self.sprite = 'images/Selector.png';
+    self.y = 330;
+    self.sprite = 'images/Selectorcrop.png';
     self.alpha = 1;
     self.throbdir = 'transparent';
 };
