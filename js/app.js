@@ -27,11 +27,14 @@ Selector.prototype.handleInput = function(key) {
     }
     if (key == 'enter') {
       selectedChar = this.col;
+      console.log(selectedChar);
+       player.sprite = chars[selectedChar] ;
+
       play = true;
 
     }
 };
-
+console.log(chars[selectedChar]);
 // Selector render function
 Selector.prototype.render = function() {
     ctx.save();
@@ -135,7 +138,8 @@ var Player = function(play) {
     // document.getElementById('score').innerHTML = this.score + this.newScore; //to link the updated score to html file
      document.getElementById('lives').innerHTML = this.lives;
     // this.sprite = 'images/char-boy.png';
-    this.sprite = chars[selectedChar];
+    //  this.sprite = chars[selectedChar];
+
 };
 
 
@@ -143,7 +147,8 @@ var Player = function(play) {
 Player.prototype.reset = function() {
     this.x = 401;
     this.y = 435;
-    this.sprite = chars[selectedChar];
+    // this.sprite = chars[selectedChar];
+
 };
 
 //Player water position
@@ -294,8 +299,8 @@ var player = new Player();
 
 //Star - objects that player should collect to win.
 var Star = function(){
-  this.x = Math.random() * (250 - 10) + 1;
-  this.y = Math.random() * (250 - 10) + 5;
+  this.x = Math.random() * (250 - 10) + 10;
+  this.y = Math.random() * (250 - 10) + 50;
     this.width = 75;
     this.height = 50;
     this.sprite = 'images/char-pink-girl.png';
