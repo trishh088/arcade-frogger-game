@@ -6,8 +6,7 @@ var chars = [ //Array of URLs for player to select avatar
     'images/char-pink-girl.png',
     'images/char-princess-girl.png'
 ];
-var level = 1; //Current level
-var win = false; //Whether level has been won; used to trigger animations.
+
 var play = false; //Whether the game has begun; used to trigger character selector screen
 
 // SELECTOR CLASS To let the player chhose their avatar
@@ -183,9 +182,7 @@ Player.prototype.update = function() {
                 this.lives = 3;
                 document.getElementById("lives")
                     .innerHTML = this.lives; // update score
-
-
-            }
+                  }
 
         } else if (this.x === 30 || this.y === 0) { //checks wether the player has reachers the water
             this.score += 2; //increments the score
@@ -194,8 +191,6 @@ Player.prototype.update = function() {
             this.reset();
         }
     }
-
-
 };
 
 
@@ -269,8 +264,7 @@ Player.prototype.handleInput = function(key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 
-var allEnemies = [new Enemy(0, 70) ,new Enemy (0,90),new Enemy(0,100),new Enemy(200,300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50,300),new Enemy(10,300), new Enemy(0,250),new Enemy(100,290)
-];
+var allEnemies = [new Enemy(0, 70), new Enemy(0, 90), new Enemy(0, 100), new Enemy(200, 300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50, 300), new Enemy(10, 300), new Enemy(0, 250), new Enemy(100, 290)];
 allEnemies.push(new Enemy());
 
 // Place the player object in a variable called player
@@ -318,7 +312,7 @@ Star.prototype.reset = function() {
 //Check for Collision between star and player.
 Star.prototype.collision = function(target) {
 
-  // Gem collision on different points on the canvas.
+    // Gem collision on different points on the canvas.
 
     Star.prototype.collision = function() {
 
@@ -345,9 +339,7 @@ Star.prototype.render = function() {
 
 
 //Instantiate Star objects and stored in an array.
-// var star = [new Star(0,70), new Star(100,120)];
-
-    var star = new Star();
+var star = new Star();
 
 
 
