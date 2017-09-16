@@ -119,6 +119,8 @@ var Engine = (function(global) {
          */
           // player.drawText();
           // player.increaseScore();
+
+          //for the game screen to show up
           if (play === true) {
 
 

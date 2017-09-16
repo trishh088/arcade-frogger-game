@@ -8,25 +8,25 @@ var chars = [ //Array of URLs for player and NPC sprites
 ];
 var play = false; //Whether the game has begun; used to trigger character selector screen
 var Selector = function() {
-  self = this;
-    self.col = 0;
-    self.x = this.col * 111 + 200;
-    self.y = 330;
-    self.sprite = 'images/Selectorcrop.png';
-    self.alpha = 1;
-    self.throbdir = 'transparent';
+  // this = this;
+    this.col = 0;
+    this.x = this.col * 111 + 200;
+    this.y = 330;
+    this.sprite = 'images/Selectorcrop.png';
+    this.alpha = 1;
+    this.throbdir = 'transparent';
 };
 
 // Receives input from user to move selector
 Selector.prototype.handleInput = function(key) {
     if (key == 'left') {
-        self.col > 0 ? (self.col--, self.x = self.col * 101 + 202) : self.col;
+        this.col > 0 ? (this.col--, this.x = this.col * 101 + 202) : this.col;
     }
     if (key == 'right') {
-      self.col < 4 ? (self.col++, self.x = self.col * 101 + 202) : self.col;
+      this.col < 4 ? (this.col++, this.x = this.col * 101 + 202) : this.col;
     }
     if (key == 'enter') {
-      selectedChar = self.col;
+      selectedChar = this.col;
       play = true;
 
     }
@@ -35,22 +35,22 @@ Selector.prototype.handleInput = function(key) {
 // Selector render function
 Selector.prototype.render = function() {
     ctx.save();
-    self.throb();
-    ctx.globalAlpha = self.alpha;
-    ctx.drawImage(Resources.get(self.sprite), self.x, self.y);
+    this.throb();
+    ctx.globalAlpha = this.alpha;
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     ctx.restore();
 };
 
 // Helper for Selector.render that uses alpha transparency to "throb" the selector
 Selector.prototype.throb = function() {
-    if (self.alpha > 0.5 && self.throbdir === 'transparent') {//'down') {
-        self.alpha -= 0.0075;
+    if (this.alpha > 0.5 && this.throbdir === 'transparent') {//'down') {
+        this.alpha -= 0.0075;
     }
     else {
-        self.throbdir = 'transparent';//'up';
-        self.alpha += 0.0075;
-        if (self.alpha > 1 && self.throbdir === 'opaque') { //'up') {
-            self.throbdir = 'transparent';//'down';
+        this.throbdir = 'transparent';//'up';
+        this.alpha += 0.0075;
+        if (this.alpha > 1 && this.throbdir === 'opaque') { //'up') {
+            this.throbdir = 'transparent';//'down';
         }
     }
 };
@@ -143,6 +143,7 @@ var Player = function(play) {
 Player.prototype.reset = function() {
     this.x = 401;
     this.y = 435;
+    this.sprite = chars[selectedChar];
 };
 
 //Player water position
