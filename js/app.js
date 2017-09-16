@@ -1,17 +1,21 @@
 var selectedChar; //Used as pointer for the selected sprite URL in array
-var chars = [ //Array of URLs for player and NPC sprites
+var chars = [ //Array of URLs for player to select avatar
     'images/char-boy.png',
     'images/char-cat-girl.png',
     'images/char-horn-girl.png',
     'images/char-pink-girl.png',
     'images/char-princess-girl.png'
 ];
+var level = 1; //Current level
+var win = false; //Whether level has been won; used to trigger animations.
 var play = false; //Whether the game has begun; used to trigger character selector screen
+
+// SELECTOR CLASS To let the player chhose their avatar
+
 var Selector = function() {
-  // this = this;
-    this.col = 0;
-    this.x = this.col * 111 + 200;
-    this.y = 330;
+    this.col = 0; //to use it as index number for chars array
+    this.x = this.col * 111 + 200; // for selector image x axis
+    this.y = 330; //for selector y axis
     this.sprite = 'images/Selectorcrop.png';
     this.alpha = 1;
     this.throbdir = 'transparent';
@@ -23,18 +27,16 @@ Selector.prototype.handleInput = function(key) {
         this.col > 0 ? (this.col--, this.x = this.col * 101 + 202) : this.col;
     }
     if (key == 'right') {
-      this.col < 4 ? (this.col++, this.x = this.col * 101 + 202) : this.col;
+        this.col < 4 ? (this.col++, this.x = this.col * 101 + 202) : this.col;
     }
     if (key == 'enter') {
-      selectedChar = this.col;
-      console.log(selectedChar);
-       player.sprite = chars[selectedChar] ;
+        selectedChar = this.col; // send the this.col i.e new index value to selected char
+        player.sprite = chars[selectedChar]; // initalizes the selected avatar as the game begins
 
-      play = true;
+        play = true; //starts the game page
 
     }
 };
-console.log(chars[selectedChar]);
 // Selector render function
 Selector.prototype.render = function() {
     ctx.save();
@@ -46,49 +48,48 @@ Selector.prototype.render = function() {
 
 // Helper for Selector.render that uses alpha transparency to "throb" the selector
 Selector.prototype.throb = function() {
-    if (this.alpha > 0.5 && this.throbdir === 'transparent') {//'down') {
+    if (this.alpha > 0.5 && this.throbdir === 'transparent') { //'down') {
         this.alpha -= 0.0075;
-    }
-    else {
-        this.throbdir = 'transparent';//'up';
+    } else {
+        this.throbdir = 'transparent'; //'up';
         this.alpha += 0.0075;
         if (this.alpha > 1 && this.throbdir === 'opaque') { //'up') {
-            this.throbdir = 'transparent';//'down';
+            this.throbdir = 'transparent'; //'down';
         }
     }
 };
 
 
 // Instantiates our selector; called in Engine.js before init()
- function initLoad() {
-     selector = new Selector();
- }
+function initLoad() {
+    selector = new Selector();
+}
 
 
 var Game = function() {
-  //Preload audio sample(s)
-  this.getGemEfx = new Audio('audio/getGem.wav');
-  this.loseLifeEfx = new Audio('audio/loseLife.wav');
-  this.winGameEfx = new Audio('audio/wingame.wav');
+    //Preload audio sample(s)
+    this.getGemEfx = new Audio('audio/getGem.wav');
+    this.loseLifeEfx = new Audio('audio/loseLife.wav');
+    this.winGameEfx = new Audio('audio/wingame.wav');
 };
-document.getElementById('mute').addEventListener('click', function (icon) {
-  if ( game.getGemEfx.muted && game.loseLifeEfx && game.winGameEfx ) {
-    game.getGemEfx.muted = false
-    game.loseLifeEfx.muted = false
-    game.winGameEfx.muted = false
-    icon.target.innerHTML = '🔊'
-  }
-  else {
-    game.getGemEfx.muted = true
-    game.loseLifeEfx.muted = true
-    game.winGameEfx.muted = true
-    icon.target.innerHTML = '🔇'
-  }
-})
+document.getElementById('mute')
+    .addEventListener('click', function(icon) {
+        if (game.getGemEfx.muted && game.loseLifeEfx && game.winGameEfx) {
+            game.getGemEfx.muted = false
+            game.loseLifeEfx.muted = false
+            game.winGameEfx.muted = false
+            icon.target.innerHTML = '🔊'
+        } else {
+            game.getGemEfx.muted = true
+            game.loseLifeEfx.muted = true
+            game.winGameEfx.muted = true
+            icon.target.innerHTML = '🔇'
+        }
+    })
 
 var game = new Game();
-
 // Enemies our player must avoid
+
 var Enemy = function(a, b, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -136,7 +137,8 @@ var Player = function(play) {
     this.lives = 3;
 
     // document.getElementById('score').innerHTML = this.score + this.newScore; //to link the updated score to html file
-     document.getElementById('lives').innerHTML = this.lives;
+    document.getElementById('lives')
+        .innerHTML = this.lives;
     // this.sprite = 'images/char-boy.png';
     //  this.sprite = chars[selectedChar];
 
@@ -151,25 +153,9 @@ Player.prototype.reset = function() {
 
 };
 
-//Player water position
-// Player.prototype.water = function (x,y) {
-//   this.x = 30;
-//   this.y = 0;
-// };
-
-
-// Player.prototype.drawText = function() {
-//   ctx.font = "20px Verdana";
-//   ctx.fillStyle = "black";
-//   ctx.fillText("Score: " + this.score, 200, 950);
-//
-// };
 
 
 //player score updates
-
-
-
 Player.prototype.update = function() {
     //collision detection
     //this is player
@@ -181,37 +167,32 @@ Player.prototype.update = function() {
             // collision detected!
             // this.x = 201;
             // this.y = 401;
-game.loseLifeEfx.play();
+            game.loseLifeEfx.play();
             this.reset();
             this.score -= 2;
-            document.getElementById("score").innerHTML =  this.score;  // update score
+            document.getElementById("score")
+                .innerHTML = this.score; // update score
             this.lives -= 1;
-            document.getElementById("lives").innerHTML =  this.lives;  // update score
-            if(this.lives === 0){
-              alert("Game Over");
-              this.score = 0;
-              document.getElementById("score").innerHTML =  this.score;  // update score
-              this.lives = 3;
-              document.getElementById("lives").innerHTML =  this.lives;  // update score
+            document.getElementById("lives")
+                .innerHTML = this.lives; // update score
+            if (this.lives === 0) {
+                alert("Game Over");
+                this.score = 0;
+                document.getElementById("score")
+                    .innerHTML = this.score; // update score
+                this.lives = 3;
+                document.getElementById("lives")
+                    .innerHTML = this.lives; // update score
 
 
             }
 
-            }
-            else if(this.x === 30 || this.y === 0){ //checks wether the player has reachers the water
-              this.score += 2;  //increments the score
-              document.getElementById("score").innerHTML =  this.score;  // updates the score
-              this.reset();
+        } else if (this.x === 30 || this.y === 0) { //checks wether the player has reachers the water
+            this.score += 2; //increments the score
+            document.getElementById("score")
+                .innerHTML = this.score; // updates the score
+            this.reset();
         }
-// else if(this.score === 4){
-//         //  this.reset;
-//         //  document.getElementById("won").innerHTML =  "WON";  // updates the score
-//
-// }
-
-
-
-
     }
 
 
@@ -222,7 +203,6 @@ game.loseLifeEfx.play();
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
 };
 
 Player.prototype.handleInput = function(key) {
@@ -260,41 +240,40 @@ Player.prototype.handleInput = function(key) {
             break;
 
     }
-    // go = !go;
+    //for the star object so that it runs every time the player moves
 
-//for the star object so that it runs every time the player moves
+    if (this.x < star.x + star.width &&
+        this.x + this.width > star.x &&
+        this.y < star.y + star.height &&
+        this.height + this.y > star.y) {
 
-    if(this.x < star.x + star.width &&
-   this.x + this.width > star.x &&
-   this.y < star.y + star.height &&
-   this.height + this.y > star.y){
-
-      star.collision();
+        star.collision();
 
 
-      }
+    }
 
-      //condition for winning
-      if(this.score >= 500){
+    //condition for winning
+    if (this.score >= 500) {
 
-    game.winGameEfx.play();
+        game.winGameEfx.play();
 
-                       alert("You win!");
-                       this.score = 0;
-                       document.getElementById('score').innerHTML = this.score;
-                       this.lives = 3;
-                       document.getElementById('lives').innerHTML = this.lives;
-                       this.reset();
+        alert("You win! To change AVATAR Refresh Browser");
+        this.score = 0;
+        document.getElementById('score')
+            .innerHTML = this.score;
+        this.lives = 3;
+        document.getElementById('lives')
+            .innerHTML = this.lives;
+        this.reset();
 
-                     }
+    }
 };
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 
-var allEnemies = [new Enemy(0, 70)
-];
+var allEnemies = [new Enemy(0, 70)];
 // ,new Enemy (0,90),new Enemy(0,100),new Enemy(200,300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50,300),new Enemy(10,300), new Enemy(0,250),new Enemy(100,290)
-    allEnemies.push(new Enemy());
+allEnemies.push(new Enemy());
 
 // Place the player object in a variable called player
 
@@ -302,44 +281,38 @@ var player = new Player();
 
 
 //Star - objects that player should collect to win.
-var Star = function(){
-  this.x = Math.random() * (250 - 10) + 10;
-  this.y = Math.random() * (250 - 10) + 50;
+var Star = function() {
+    this.x = Math.random() * (250 - 10) + 10;
+    this.y = Math.random() * (250 - 10) + 50;
     this.width = 75;
     this.height = 50;
     this.sprite = 'images/char-pink-girl.png';
-    // this.x = 80;
-    // this.y = 80;
 };
 
 
 
-Star.prototype.update = function(){
+Star.prototype.update = function() {
     //  this.y = 60;
     //  this.x = 200;
     var that = this;
-    a = Math.floor((Math.random()*7)+ 0)*101;
-    b = (Math.floor((Math.random()*3)+ 1)*83)-20;
-//checking the boundary of the canvas
-    if (a>606 && a>909 && b>606 && b>909){
-      that.x = a;
-      that.y = b;
+    a = Math.floor((Math.random() * 7) + 0) * 101;
+    b = (Math.floor((Math.random() * 3) + 1) * 83) - 20;
+    //checking the boundary of the canvas
+    if (a < 606 && a > 909 && b < 606 && b > 909) {
+        that.x = a;
+        that.y = b;
 
     }
 
 };
 
 //for reset
-Star.prototype.reset = function(){
-          //
-          this.y = Math.floor(Math.random()*  320); // resets gem to different points on canvas
-          this.x = Math.floor(Math.random() * 750);
-          console.log(this.x,this.y);
-//           var that = this; that.x = 100;
-// that.y = 200;
-
-
-        }
+Star.prototype.reset = function() {
+    //
+    this.y = Math.floor(Math.random() * 320); // resets gem to different points on canvas
+    this.x = Math.floor(Math.random() * 750);
+    console.log(this.x, this.y);
+}
 
 
 
@@ -347,43 +320,25 @@ Star.prototype.reset = function(){
 //Check for Collision between star and player.
 Star.prototype.collision = function(target) {
 
- // for(var i=0; i<star.length; i++){
- //   if(star[i].x<player.x + this.width && star[i].x + star[i].width>player.x && star[i].y <player.y + this.height && star[i].height + star[i].y > player.y) {
- //     player.score = +1;
- //     document.getElementById("score").innerHTML =  player.score;  // updates the score
- //     //remove the caught gem
- //     star[i].splice(i,1);
- //         isCollision = true;
- //         star.reset();
+  // Gem collision on different points on the canvas.
 
-         // Gem collision on different points on the canvas.
+    Star.prototype.collision = function() {
 
-                 Star.prototype.collision = function() {
+        if (player.x < this.x + this.width &&
+            player.x + player.width > this.x &&
+            player.y < this.y + this.height &&
+            player.height + player.y > this.y);
 
-                     if(player.x < this.x + this.width &&
-                     player.x + player.width > this.x &&
-                     player.y < this.y + this.height &&
-                     player.height + player.y > this.y);
+        console.log("got a gem!");
+        console.count("Gem collision");
+        game.getGemEfx.play();
+        player.score += 50;
+        document.getElementById("score")
+            .innerHTML = player.score; // updates the score
+        star.reset();
 
-                       console.log("got a gem!");
-                       console.count("Gem collision");
-game.getGemEfx.play();
-                       player.score += 50;
-                       document.getElementById("score").innerHTML =  player.score;  // updates the score
-                       star.reset();
-
-                 };
-
- //   }
- // }
+    };
 };
-
-
-
-//Update stars when collected by player
-// Star.prototype.update = function() {
-//     this.collision();
-// };
 
 //Draw the star sprite on the screen
 Star.prototype.render = function() {
@@ -393,13 +348,12 @@ Star.prototype.render = function() {
 
 //Instantiate Star objects and stored in an array.
 // var star = [new Star(0,70), new Star(100,120)];
-for(var i = 0; i < 4; i++){
-    var star = new Star(i);
-    // star.push(new Star);
- }
+
+    var star = new Star();
 
 
-//add star.render() in function renderEntities() {} and star.update() in function updateEntities(dt) in engine.js
+
+//FOR LEVEL 2
 
 
 // This listens for key presses and sends the keys to your
@@ -414,8 +368,7 @@ document.addEventListener('keyup', function(e) {
     };
     if (play === false) {
         selector.handleInput(allowedKeys[e.keyCode]);
-    }
-    else {
+    } else {
         player.handleInput(allowedKeys[e.keyCode]);
     }
 
