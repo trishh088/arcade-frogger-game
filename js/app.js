@@ -396,6 +396,7 @@ for(var i = 0; i < 4; i++){
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
+        13: 'enter',
         37: 'left',
         38: 'up',
         39: 'right',
@@ -408,5 +409,5 @@ document.addEventListener('keyup', function(e) {
         player.handleInput(allowedKeys[e.keyCode]);
     }
 
-    // player.handleInput(allowedKeys[e.keyCode]);
+    //  player.handleInput(allowedKeys[e.keyCode]);
 });
