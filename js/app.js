@@ -271,8 +271,8 @@ Player.prototype.handleInput = function(key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 
-var allEnemies = [new Enemy(0, 70)];
-// ,new Enemy (0,90),new Enemy(0,100),new Enemy(200,300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50,300),new Enemy(10,300), new Enemy(0,250),new Enemy(100,290)
+var allEnemies = [new Enemy(0, 70) ,new Enemy (0,90),new Enemy(0,100),new Enemy(200,300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50,300),new Enemy(10,300), new Enemy(0,250),new Enemy(100,290)
+];
 allEnemies.push(new Enemy());
 
 // Place the player object in a variable called player
@@ -351,9 +351,6 @@ Star.prototype.render = function() {
 
     var star = new Star();
 
-
-
-//FOR LEVEL 2
 
 
 // This listens for key presses and sends the keys to your
