@@ -1,3 +1,6 @@
+'use strict';
+var selector;
+var ctx;
 var selectedChar; //Used as pointer for the selected sprite URL in array
 var chars = [ //Array of URLs for player to select avatar
     'images/char-boy.png',
@@ -74,22 +77,22 @@ var Game = function() {
 document.getElementById('mute')
     .addEventListener('click', function(icon) {
         if (game.getGemEfx.muted && game.loseLifeEfx && game.winGameEfx) {
-            game.getGemEfx.muted = false
-            game.loseLifeEfx.muted = false
-            game.winGameEfx.muted = false
-            icon.target.innerHTML = '🔊'
+            game.getGemEfx.muted = false;
+            game.loseLifeEfx.muted = false;
+            game.winGameEfx.muted = false;
+            icon.target.innerHTML = '🔊';
         } else {
-            game.getGemEfx.muted = true
-            game.loseLifeEfx.muted = true
-            game.winGameEfx.muted = true
-            icon.target.innerHTML = '🔇'
+            game.getGemEfx.muted = true;
+            game.loseLifeEfx.muted = true;
+            game.winGameEfx.muted = true;
+            icon.target.innerHTML = '🔇';
         }
-    })
+    });
 
 var game = new Game();
 // Enemies our player must avoid
 
-var Enemy = function(a, b, speed) {
+var Enemy = function(a, b) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = a;
@@ -100,8 +103,6 @@ var Enemy = function(a, b, speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.score = 0;
-    this.lives = 3;
 };
 
 // Update the enemy's position, required method for game
@@ -264,8 +265,9 @@ Player.prototype.handleInput = function(key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 
+//THE FIRST ROW OF ENEMIES is positioned in such a way that it doesnt touch the player until it crosees the Grass and that why the  collision is not happening, its intentional.....
 var allEnemies = [new Enemy(0, 70), new Enemy(0, 90), new Enemy(0, 100), new Enemy(200, 300), new Enemy(100, 120), new Enemy(140, 200), new Enemy(202, 210), new Enemy(0, 180), new Enemy(50, 300), new Enemy(10, 300), new Enemy(0, 250), new Enemy(100, 290)];
-allEnemies.push(new Enemy());
+// allEnemies.push(new Enemy());
 
 // Place the player object in a variable called player
 
@@ -287,6 +289,8 @@ Star.prototype.update = function() {
     //  this.y = 60;
     //  this.x = 200;
     var that = this;
+    var a;
+    var b;
     a = Math.floor((Math.random() * 7) + 0) * 101;
     b = (Math.floor((Math.random() * 3) + 1) * 83) - 20;
     //checking the boundary of the canvas
@@ -304,7 +308,7 @@ Star.prototype.reset = function() {
     this.y = Math.floor(Math.random() * 320); // resets gem to different points on canvas
     this.x = Math.floor(Math.random() * 750);
     console.log(this.x, this.y);
-}
+};
 
 
 
@@ -314,8 +318,7 @@ Star.prototype.collision = function(target) {
 
     // Gem collision on different points on the canvas.
 
-    Star.prototype.collision = function() {
-
+//cant remove this code as it gives error "Cannot read property 'handleInput' of undefined"
         if (player.x < this.x + this.width &&
             player.x + player.width > this.x &&
             player.y < this.y + this.height &&
@@ -329,7 +332,6 @@ Star.prototype.collision = function(target) {
             .innerHTML = player.score; // updates the score
         star.reset();
 
-    };
 };
 
 //Draw the star sprite on the screen
