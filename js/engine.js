@@ -202,7 +202,7 @@ var Engine = (function(global) {
 
 
         //*********Controls....**********
-        var control = "Choose your Avatar";
+        var control = "Choose your Avatar using arrow keys '→'  '←' ";
         ctx.font = ' 20pt Verdana';
         ctx.textAlign = 'center';
 
