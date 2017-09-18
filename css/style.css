@@ -3,6 +3,11 @@ body {
 
 }
 
+.background {
+background:url(./images/back-1200_small.jpg);
+
+}
+
 .mute-button {
   position: absolute;
   left: 672px;
